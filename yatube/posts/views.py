@@ -1,6 +1,8 @@
 from django.http import HttpResponse
-def index(request):    
-    return HttpResponse('Главная страница')
+from django.shortcuts import render
+def index(request):
+    template = 'posts/index.html'    
+    return render(request, template)
 def group_posts(request, slug):
     return HttpResponse(f'Группы {slug}')
 # Create your views here.
