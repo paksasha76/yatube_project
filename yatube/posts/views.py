@@ -1,18 +1,29 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404 
+from .models import Post, Group
+
 def index(request):
+    title = 'Главная страница ютуб'
+    text = 'Здесь будет главная страница ютуб'
     template = 'posts/index.html' 
-    title = "Это главная страница ютуб"
+    posts = Post.objects.order_by('-pub_date')[:10]
     context = {
-        'title': title,
+        'posts': posts,
+        'title': title, 
+        'text': text,
     }
     return render(request, template, context)
 
 def group_posts(request, slug):
+    title = 'Главная страница ютуб'
+    text = 'Здесь будет главная страница ютуб'
+    group = get_object_or_404(Group, slug=slug)
     template = 'posts/group_list.html'
-    text = "Здесь будет информация о группах проекта Yatube"
+    posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
     context = {
-        'text': text,
+        'title': title, 
+        'group': group,
+        'posts': posts,
     }
-    return render(request, {slug}, template, context)
+    return render(request, template, context)
 # Create your views here.
